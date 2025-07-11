@@ -73,7 +73,7 @@ def update_record(df, file, history_file, idx, username, updated_row=None):
     df.to_csv(file, index=False)
 
 # -------------------- Streamlit UI --------------------
-st.set_page_config(page_title="Ganesh Festival App", layout="wide")
+st.set_page_config(page_title="GaneshKutumbam", layout="wide")
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
