@@ -85,7 +85,7 @@ total_spent = expenses["Amount"].sum() if not expenses.empty else 0
 balance = total_collected - total_spent
 
 if not st.session_state.logged_in:
-    st.title("🔐 Ganesh Festival App Login")
+    st.title("🔐 GaneshKutumbam App Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     if st.button("Login"):
