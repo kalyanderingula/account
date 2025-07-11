@@ -73,11 +73,16 @@ def update_record(df, file, history_file, idx, username, updated_row=None):
     df.to_csv(file, index=False)
 
 # -------------------- Streamlit UI --------------------
-st.set_page_config(page_title="GaneshKutumbam", layout="wide")
+st.set_page_config(page_title="Ganesh Festival App", layout="wide")
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.username = ""
+
+collections, expenses, col_history, exp_history = load_data()
+total_collected = collections["Amount"].sum() if not collections.empty else 0
+total_spent = expenses["Amount"].sum() if not expenses.empty else 0
+balance = total_collected - total_spent
 
 if not st.session_state.logged_in:
     st.title("🔐 Ganesh Festival App Login")
@@ -91,12 +96,16 @@ if not st.session_state.logged_in:
             st.rerun()
         else:
             st.error("Invalid username or password.")
+
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Collected", f"₹{total_collected}")
+    col2.metric("Total Spent", f"₹{total_spent}")
+    col3.metric("Remaining", f"₹{balance}")
     st.stop()
 
 st.title("🪔 ChallimamidivariPalli GaneshKutumbam ")
 st.caption(f"👤 Logged in as: `{st.session_state.username}`")
-
-collections, expenses, col_history, exp_history = load_data()
 
 tab1, tab2, tab3, tab4 = st.tabs([
     "➕ Add Entry",
@@ -159,10 +168,6 @@ with tab2:
 # -------------------- Report --------------------
 with tab3:
     st.subheader("📊 Financial Summary")
-    total_collected = collections["Amount"].sum()
-    total_spent = expenses["Amount"].sum()
-    balance = total_collected - total_spent
-
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Collected", f"₹{total_collected}")
     col2.metric("Total Spent", f"₹{total_spent}")
